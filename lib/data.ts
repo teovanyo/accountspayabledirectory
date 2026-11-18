@@ -192,6 +192,7 @@ export function firmTypes(f: Firm): FirmType[] {
   const text = `${f.name} ${f.categories.join(" ")}`;
   const types: FirmType[] = [];
   if (/accounts? payable (software|automation|platform|solution|app)|ap automation|invoice automation|procure[- ]to[- ]pay|purchase[- ]to[- ]pay|p2p|spend manage|payment automation|payables automation/i.test(text)) types.push("automation");
+  if (/software (company|developer|publisher)|internet (company|service provider)|it (service|consultant)|computer (software )?store/i.test(text) && /pay|invoice|bill|spend|accounting|finance|\bap\b/i.test(text)) types.push("automation");
   if (/invoice (processing|management|scanning|automation)|document (processing|management)|bill (processing|payment)|scanning|data entry|ocr/i.test(text)) types.push("invoice");
   if (/bookkeep|accounting|accountant|cpa|tax (preparation|service|filing)|financial report|payroll|controller/i.test(text)) types.push("bookkeeping");
   if (/outsourc|bpo|business process|finance (and|&) accounting|shared service|offshore|back[- ]office|managed service|staffing/i.test(text)) types.push("bpo");

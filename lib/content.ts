@@ -282,6 +282,7 @@ export function buildFallbackContent(firm: Firm): FirmContent {
   const name = firm.name;
   const cityState = `${firm.city}, ${stateName(firm.state)}`;
   const typeLabel = typePhrase(types);
+  const cityFirmWord = cityFirms.length === 1 ? "provider" : "providers";
   const ratingLine =
     firm.rating != null && firm.reviews != null
       ? `${name} has a public rating of ${firm.rating.toFixed(1)} out of 5 from ${firm.reviews.toLocaleString()} reviews. ${
@@ -293,12 +294,12 @@ export function buildFallbackContent(firm: Firm): FirmContent {
 
   const comparisonLine =
     cityAvg != null
-      ? `Across ${cityFirms.length.toLocaleString()} listed providers in ${firm.city}, the average rating among rated firms is ${cityAvg.toFixed(
+      ? `Across ${cityFirms.length.toLocaleString()} listed ${cityFirmWord} in ${firm.city}, the average rating among rated firms is ${cityAvg.toFixed(
           1
         )}. Statewide, the average is ${stateAvg != null ? stateAvg.toFixed(1) : "not available"}. ${
           rank <= 10 ? `${name} ranks #${rank} in ${firm.city} by public review volume.` : ""
         }`
-      : `${firm.city} has ${cityFirms.length.toLocaleString()} listed accounts payable providers. There is not yet enough rating data to calculate a reliable local average.`;
+      : `${firm.city} has ${cityFirms.length.toLocaleString()} listed ${cityFirmWord}. There is not yet enough rating data to calculate a reliable local average.`;
 
   const contactBits = [
     firm.address ? `It is at ${firm.address}.` : null,

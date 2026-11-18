@@ -7,12 +7,14 @@ const DATA = path.join(ROOT, "data");
 const RAW = path.join(DATA, "raw", "places.jsonl");
 const OUT = path.join(DATA, "firms.json");
 
-const KEEP_CAT =
-  /accounts? payable|payable|bookkeep|bookkeeping|accounting|accountant|certified public accountant|billing service|invoice|payment (service|processing)|financial (service|consultant|planner)|business management consultant|outsourc|bpo|payroll|financial consultant/i;
-const KEEP_NAME =
-  /accounts? payable|\bap\b|payable|invoice|bookkeep|accounting|accountant|\bcpa\b|\bbpo\b|outsourc|finance|financial|controller|bill ?pay|payment process|back office/i;
-const EXCLUDE =
-  /tax (preparation|service|return|office)|h&r block|hr block|jackson hewitt|liberty tax|check cash|payday|currency exchange|title (company|agency)|real estate agency|insurance agency|mortgage broker|auto (repair|dealer|parts)|restaurant|hotel|motel|church|school|bank\b|credit union|atm\b/i;
+const AP_CAT =
+  /accounts? payable|payable|invoice (processing|service|management|automation)|bookkeeping service|bookkeep|accounting firm|accountant|certified public accountant|payroll service|billing service|payment (processing|service)|outsourc|bpo/i;
+const AP_NAME =
+  /accounts? payable|\bap\b|payable|invoice|bookkeep|accounting|accountant|\bcpa\b|\bbpo\b|outsourc|back office|controller|bookkeeper|bill ?pay|payment (service|processing|solutions)/i;
+const FIN_NAME = /finance|financial|tax/i;
+const EXCLUDE_CAT =
+  /loan agency|financial (advisor|planner|consultant)|mortgage|insurance|\bbank\b|credit union|non-?profit|tax preparation service|tax consultant|investment|wealth|retirement|payday|check cash|currency exchange|title (company|agency)|real estate agency/i;
+const KEEP_IF_NAME = /bookkeep|accounting|accountant|\bcpa\b|payable|invoice/i;
 
 const byPlace = new Map();
 let lines = 0;
@@ -32,9 +34,10 @@ for await (const line of rl) {
     if (!row.place_id || !row.name) continue;
     const cats = [row.category, ...(row.categories || [])].filter(Boolean);
     const catText = cats.join(" | ");
-    const relevant = KEEP_CAT.test(catText) || KEEP_NAME.test(row.name);
-    if (!relevant) continue;
-    if (EXCLUDE.test(catText) && !/accounts? payable|invoice|bookkeep|accounting|payable/i.test(row.name)) continue;
+    const strong = AP_CAT.test(catText) || AP_NAME.test(row.name);
+    if (!strong) continue;
+    if (EXCLUDE_CAT.test(catText) && !KEEP_IF_NAME.test(row.name)) continue;
+    if (!AP_CAT.test(catText) && !FIN_NAME.test(row.name) && !AP_NAME.test(row.name)) continue;
     const prev = byPlace.get(row.place_id);
     const score = (row.phone ? 2 : 0) + (row.website ? 2 : 0) + (row.address ? 1 : 0) + (row.review_count || 0) / 1000;
     if (!prev || score > prev._score) {
