@@ -1,0 +1,12 @@
+jobs total=8046 pending=414 concurrency=24
+[0.3m] 18/414 this run, 747 rows, 0 failed
+[1.6m] 68/414 this run, 3449 rows, 0 failed
+[2.8m] 118/414 this run, 5747 rows, 0 failed
+FAIL accounts payable services @ Billings, MT: http 504
+FAIL accounts payable services @ Arvada, CO: http 504
+[4.4m] 168/414 this run, 8168 rows, 2 failed
+[5.2m] 218/414 this run, 10596 rows, 2 failed
+[6.4m] 268/414 this run, 12420 rows, 2 failed
+[7.1m] 318/414 this run, 14888 rows, 2 failed
+[7.8m] 368/414 this run, 17074 rows, 2 failed
+DONE 8044/8046 queries, 18297 rows this run, 2 failed
