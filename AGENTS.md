@@ -19,14 +19,14 @@ Always deploy after making changes to this project. Do not stop at a local build
    - `page.fetch("/api/v1/deploy", { method: "POST", headers: { Authorization: "Bearer <coolify3 API token>", "Content-Type": "application/json", Accept: "application/json" }, body: JSON.stringify({ uuid: "qkndf7svzcvibdjummzh05yh" }) })`
    - Coolify3 token is in `~/.config/stealthagents/ops-watchdog.env` (`COOLIFY_TOKENS` → `coolify3`). Never commit it.
 4. Poll `GET /api/v1/deployments/<deployment_uuid>` until `status` is `finished`.
-5. Verify `https://accountspayabledirectory.stealthagents.us` and at least one firm/city page return 200 with the new content.
+5. Verify `https://accountspayabledirectory.com` and at least one firm/city page return 200 with the new content.
 
 ## Infrastructure
 
 - **Repo:** public `github.com/teovanyo/accountspayabledirectory` (branch `main`).
 - **Coolify3:** project `Accounts Payable Directory` `3s8fpneilujs8y5aihb68ref`, app `accountspayabledirectory` `qkndf7svzcvibdjummzh05yh` (Dockerfile, port 3000, server `ze0a2o0lk98353ty6kw610q8`).
-- **Live domain:** `https://accountspayabledirectory.stealthagents.us` (CNAME → Coolify-03 tunnel `3cef3dd6-5f46-4a9d-982e-b70ae97b3806.cfargotunnel.com`, tunnel ingress version 402).
-- **Primary domain:** `accountspayabledirectory.com` is configured on the app and in the tunnel, but the domain is **not registered** (no NS/A record as of 2026-11-18). Register it, point NS at Cloudflare, and add apex + www CNAMEs to the same tunnel — no Coolify change needed.
+- **Live domain:** `https://accountspayabledirectory.com` (+ www). Cloudflare zone `97a3f1dea416d32136670bcff5347819`, NS `khalid.ns.cloudflare.com` / `sunny.ns.cloudflare.com` (registered at Name.com). Apex + www CNAME → Coolify-03 tunnel `3cef3dd6-5f46-4a9d-982e-b70ae97b3806.cfargotunnel.com` (proxied); tunnel ingress version 403. Zone activated 2026-11-18 20:14 UTC.
+- **Removed:** the temporary `accountspayabledirectory.stealthagents.us` domain, its DNS record, and its tunnel ingress rule were deleted after the `.com` cutover.
 - **Ads:** all Stealth Agents ad units link to `https://stealthagents.com/services/accounts-payable-assistant` with `utm_source=accountspayabledirectory`.
 
 `data/content/` is generated content and must be committed for a GitHub-based deploy. `.env.local` and generation logs are gitignored.
