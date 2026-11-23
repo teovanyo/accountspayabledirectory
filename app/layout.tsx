@@ -161,6 +161,12 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
               <Link href="/about" className="hover:text-brand">
                 About &amp; data
               </Link>
+              <Link href="/privacy" className="hover:text-brand">
+                Privacy
+              </Link>
+              <Link href="/terms" className="hover:text-brand">
+                Terms
+              </Link>
               <Link href="/site-map" className="hover:text-brand">
                 Site map
               </Link>
