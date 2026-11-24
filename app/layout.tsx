@@ -130,6 +130,9 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
               <Link href="/about" className="rounded-lg px-3 py-1.5 hover:bg-stone-100 hover:text-brand">
                 About
               </Link>
+              <Link href="/contact" className="rounded-lg px-3 py-1.5 hover:bg-stone-100 hover:text-brand">
+                Contact
+              </Link>
             </nav>
           </div>
         </header>
@@ -160,6 +163,9 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
               </Link>
               <Link href="/about" className="hover:text-brand">
                 About &amp; data
+              </Link>
+              <Link href="/contact" className="hover:text-brand">
+                Contact
               </Link>
               <Link href="/privacy" className="hover:text-brand">
                 Privacy
